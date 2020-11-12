@@ -61,7 +61,11 @@ class PrimaryKeys:
 
 
 def parse_user_args():
-    """Parse commandline arguments."""
+    """This function is parsing command line arguments
+
+    :return: Returns an instance with all arguments as attributes of parser.parse_args()
+    :rtype: instance
+    """
     parser = argparse.ArgumentParser()
     parser.description = "Row reader for tracing and debugging"
     parser.add_argument("host", type=str, help="Cassandra host")
@@ -106,7 +110,25 @@ def get_cassandra_session(host,
                           ssl_cert,
                           ssl_key,
                           ssl_version):
+    """A function that establishes a Cassandra connection
 
+    :param host: Hostname of IP address
+    :type host: str
+    :param port: Port to connect to
+    :type port: int
+    :param user: Database user
+    :type user: str
+    :param password: Password for the database user
+    :type password: str
+    :param ssl_cert: Path to ssl_certificate
+    :type ssl_cert: str
+    :param ssl_key: Path to ssl_key
+    :type ssl_key: str
+    :param ssl_version: Version of the SSL environment used for the connection
+    :type ssl_version: str
+    :return: The function returns an instance for the cassandra session
+    :rtype: instance
+    """
     auth_provider = PlainTextAuthProvider(username=user, password=password)
 
     ssl_options = {
@@ -129,6 +151,17 @@ def execute_select(keyspace,
                     table,
                     primary_keys,
                     session):
+    """A function that executes a simple select with tracing enabled
+
+    :param keyspace: Cassandra keyspace to select from
+    :type keyspace: str
+    :param table: Cassandra table to select from
+    :type table: str
+    :param primary_keys: List of primary keys
+    :type primary_keys: instance
+    :param session: Cassandra session
+    :type session: instance
+    """
 
     sql_template="SELECT * FROM {}.{} WHERE userhash=%s".format(keyspace, table)
     
